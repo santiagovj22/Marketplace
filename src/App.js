@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Login from './components/login'
+import Login from './pages/login'
 import { BrowserRouter, Switch, Route} from 'react-router-dom'
 
 class App extends React.Component{
