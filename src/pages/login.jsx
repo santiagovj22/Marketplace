@@ -1,11 +1,17 @@
 import React from 'react';
 
 import Footer from '../components/Footer/footer';
+import Login from '../components/login';
+import Navbar from '../components/navbar/navbar';
 
-const Login = () => {
+const LoginPage = () => {
     return(
-        <Footer/>
+        <div>
+            <Navbar/>
+            <Login />
+            <Footer/>
+        </div>
     )
 }
 
-export default Login;
+export default LoginPage;
