@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components'
-import { Form, Button, Divider } from "semantic-ui-react";
-
+import { Form, Button } from "semantic-ui-react";
+import axios from 'axios'
 
 const StyledContent = Styled.section`
     @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
@@ -34,24 +34,44 @@ const StyledWrapFooter = Styled.div`
     @media (max-width:768px){display:none;}
 `;
 class Login extends React.Component{
-
+    constructor(){
+      super()
+      this.submitHandler = this.submitHandler.bind(this);
+      this.state={
+        email:'',
+        password:''
+      }
+    }
     
+    submitHandler = async  e =>{
+      e.preventDefault();
+      let response = await axios.post('http://localhost:3001/api/login', {
+        email:this.state.email,
+        password:this.state.password
+      })
+      console.log(response.data)
+
+    }
+
+    changeHandler = e => {
+      this.setState({[e.target.name]: e.target.value});
+  };
     render(){
+
+      const { email, password } = this.state
         return(
             <StyledContent>
-            <StyledForm>
+            <StyledForm onSubmit={this.submitHandler}>
               <div>
                 <h3>Iniciar sesión</h3>
-                <p>Eres nuevo en este sitio</p>
                 
               </div>
-              <Divider horizontal>o</Divider>
-              <p>inicia sesion con tu kiero account</p>
+              <p>inicia sesion con tu Store account</p>
               <Form.Field>
-                <input type="text" placeholder="Correo" />
+                <input type="text" name="email" value={email} placeholder="Correo" onChange={this.changeHandler}/>
               </Form.Field>
               <Form.Field>
-                <input type="password" placeholder="Contraseña" />
+                <input type="password" name="password" value={password} placeholder="Contraseña" onChange={this.changeHandler}/>
                 
               </Form.Field>
               <Form.Field>
