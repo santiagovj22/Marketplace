@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import { Form, Button } from "semantic-ui-react";
 import axios from 'axios'
 
+
 const StyledContent = Styled.section`
     @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
     height: 100vh;
@@ -43,16 +44,26 @@ class Login extends React.Component{
       }
     }
     
-    submitHandler = async  e =>{
-      e.preventDefault();
-      let response = await axios.post('http://localhost:3001/api/login', {
-        email:this.state.email,
-        password:this.state.password
-      })
-      console.log(response.data)
 
-    }
-
+      submitHandler = async  e =>{
+        e.preventDefault();
+         await axios.post('http://localhost:3001/api/login', {
+          email:this.state.email,
+          password:this.state.password
+        })
+        .then(response => {
+         let  message=response.data.users
+         const token = message.token
+         if (message.message === 'Your token'){
+           window.localStorage.setItem('access_token', token);
+           alert("authorized", token)
+         } else{
+           alert(message.message)
+         }
+        })
+  
+      }
+    
     changeHandler = e => {
       this.setState({[e.target.name]: e.target.value});
   };
